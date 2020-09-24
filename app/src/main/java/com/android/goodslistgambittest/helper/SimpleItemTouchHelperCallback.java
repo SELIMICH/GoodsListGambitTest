@@ -9,8 +9,13 @@ import android.view.MotionEvent;
 import android.view.View;
 
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.android.goodslistgambittest.R;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 import static androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE;
 
@@ -82,46 +87,17 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         if (actionState == ACTION_STATE_SWIPE) {
             setTouchListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
+
+        new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                .addSwipeLeftBackgroundColor(R.color.addSwipeLeftBackgroundColor)
+                .addSwipeLeftActionIcon(R.drawable.ic_vectorfill)
+                .create()
+                .decorate();
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
-        drawButtons(c, viewHolder);
     }
 
-    private void drawButtons(Canvas c, RecyclerView.ViewHolder viewHolder) {
-        float buttonWidthWithoutPadding = buttonWidth - 20;
-        float corners = 16;
 
-        View itemView = viewHolder.itemView;
-        Paint p = new Paint();
-
-        RectF leftButton = new RectF(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom());
-        p.setColor(Color.BLUE);
-        c.drawRoundRect(leftButton, corners, corners, p);
-        drawText("EDIT", c, leftButton, p);
-
-        RectF rightButton = new RectF(itemView.getRight() - buttonWidthWithoutPadding, itemView.getTop(), itemView.getRight(), itemView.getBottom());
-        p.setColor(Color.RED);
-        c.drawRoundRect(rightButton, corners, corners, p);
-        drawText("DELETE", c, rightButton, p);
-
-        RectF buttonInstance = null;
-        if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
-            buttonInstance = leftButton;
-        }
-        else if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
-            buttonInstance = rightButton;
-        }
-    }
-
-    private void drawText(String text, Canvas c, RectF button, Paint p) {
-        float textSize = 60;
-        p.setColor(Color.WHITE);
-        p.setAntiAlias(true);
-        p.setTextSize(textSize);
-
-        float textWidth = p.measureText(text);
-        c.drawText(text, button.centerX()-(textWidth/2), button.centerY()+(textSize/2), p);
-    }
 
     @SuppressLint("ClickableViewAccessibility")
     private void setTouchDownListener(final Canvas c,

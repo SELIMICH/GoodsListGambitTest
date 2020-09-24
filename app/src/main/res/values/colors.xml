@@ -6,4 +6,5 @@
     <color name="layout_background">#FFFFFF</color>
     <color name="card_view_background">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="addSwipeLeftBackgroundColor">#F5F5F5</color>
 </resources>
