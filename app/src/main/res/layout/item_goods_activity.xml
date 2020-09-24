@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/card_view_background">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/goods_image"
+            android:layout_width="148dp"
+            android:layout_height="148dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/goods_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/black"
+            android:gravity="top"
+            android:text="@string/goods_title"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/goods_image"
+            app:layout_constraintTop_toTopOf="@+id/goods_image" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="63dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/ic_rectangle_10"
+            android:gravity="center_horizontal|top"
+            android:textSize="14sp"
+            android:text="@string/price"
+            android:paddingTop="8dp"
+            android:paddingEnd="13dp"
+            android:paddingStart="12dp"
+            android:paddingBottom="7dp"
+            android:viewportWidth="63"
+            android:viewportHeight="32"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/goods_image"
+            app:layout_constraintTop_toBottomOf="@+id/goods_title"
+            tools:targetApi="lollipop" />
+
+
+        <TextView
+            android:id="@+id/goods_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|top"
+            android:text="@string/goods_count"
+            android:layout_marginEnd="14dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_minus"
+            app:layout_constraintEnd_toStartOf="@+id/btn_plus"
+            app:layout_constraintTop_toTopOf="@+id/btn_minus" />
+
+        <Button
+            android:id="@+id/btn_minus"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="13dp"
+            android:background="@drawable/ic_button_minus"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/price"
+            app:layout_constraintEnd_toStartOf="@+id/goods_count" />
+
+        <Button
+            android:id="@+id/btn_plus"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_button_plus"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_minus" />
+
+        <Button
+            android:id="@+id/btn_add_to_store"
+            android:layout_width="98dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="visible"
+            android:background="@drawable/ic_add_to_store"
+            android:viewportWidth="32"
+            android:viewportHeight="32"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/goods_title"
+            tools:targetApi="lollipop" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
