@@ -5,12 +5,10 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.goodslistgambittest.R;
-import com.android.goodslistgambittest.helper.SimpleItemTouchHelperCallback;
 import com.android.goodslistgambittest.adapters.GoodsAdapter;
 import com.android.goodslistgambittest.database.App;
 import com.android.goodslistgambittest.pojo.Goods;
@@ -27,9 +25,6 @@ public class GoodsListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerViewGoods;
     private ArrayList<Goods> data;
     private GoodsAdapter mAdapter;
-    private SimpleItemTouchHelperCallback mSimpTouchHelp = new SimpleItemTouchHelperCallback();
-    private ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(mSimpTouchHelp);
-    private Toolbar toolbar;
 
 
     @Override
@@ -41,14 +36,13 @@ public class GoodsListActivity extends AppCompatActivity {
 
     private void initViews() {
         mRecyclerViewGoods = (RecyclerView) findViewById(R.id.recyclerViewGoods);
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
         mRecyclerViewGoods.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new
                 LinearLayoutManager(getApplicationContext());
         mRecyclerViewGoods.setLayoutManager(layoutManager);
         data = new ArrayList<>();
-        mItemTouchHelper.attachToRecyclerView(mRecyclerViewGoods);
         loadJSON();
     }
 
@@ -63,11 +57,6 @@ public class GoodsListActivity extends AppCompatActivity {
                 data.addAll(goodsResponse);
                 mAdapter = new GoodsAdapter(data);
                 mRecyclerViewGoods.setAdapter(mAdapter);
-
-                ItemTouchHelper.Callback callback =
-                        new SimpleItemTouchHelperCallback(mAdapter);
-                ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-                touchHelper.attachToRecyclerView(mRecyclerViewGoods);
             }
 
             @Override

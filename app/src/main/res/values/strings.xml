@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">GoodsListGambitTest</string>
+    <string name="app_name">GAMBIT</string>
     <string name="goods_title">Название блюда</string>
     <string name="price">450</string>
     <string name="rub_sign">" ₽"</string>
     <string name="goods_count">0</string>
+    <string name="title_gambit">GAMBIT</string>
 </resources>

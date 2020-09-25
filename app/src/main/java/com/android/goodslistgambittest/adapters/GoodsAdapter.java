@@ -2,7 +2,6 @@ package com.android.goodslistgambittest.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Canvas;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,23 +14,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.goodslistgambittest.R;
 import com.android.goodslistgambittest.database.App;
-import com.android.goodslistgambittest.helper.ItemTouchHelperAdapter;
 import com.android.goodslistgambittest.pojo.Goods;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
+import com.chauthai.swipereveallayout.ViewBinderHelper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHolder> implements ItemTouchHelperAdapter {
+public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHolder>  {
     private ArrayList<Goods> mGoods;
     private Context mContext;
+    private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
     Goods goods;
-
 
 
     public GoodsAdapter(ArrayList<Goods> goods) {
         this.mGoods = goods;
+        notifyDataSetChanged();
     }
 
 
@@ -43,9 +43,13 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHol
     }
 
     public void onBindViewHolder(@NonNull final GoodsViewHolder holder, int position) {
+        viewBinderHelper.setOpenOnlyOne(true);
+        viewBinderHelper.bind(holder.mSwipeRevealLayout, String.valueOf(mGoods.get(position).getName()));
+        viewBinderHelper.closeLayout(String.valueOf(mGoods.get(position).getName()));
 
         holder.bind(goods = mGoods.get(position));
         mContext = holder.itemView.getContext();
+
     }
 
     @Override
@@ -53,31 +57,6 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHol
         return mGoods.size();
     }
 
-    @Override
-    public boolean onItemMove(int fromPosition, int toPosition) {
-        if (fromPosition < toPosition) {
-            for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(mGoods, i, i + 1);
-            }
-        } else {
-            for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(mGoods, i, i - 1);
-            }
-        }
-        notifyItemMoved(fromPosition, toPosition);
-        return true;
-    }
-
-    @Override
-    public void onItemDismiss(int position) {
-        mGoods.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    @Override
-    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-
-    }
 
 
     public class GoodsViewHolder extends RecyclerView.ViewHolder {
@@ -88,6 +67,9 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHol
         private Button mBtnMinus;
         private TextView mPrice;
         private Button mAdd_to_store;
+        private SwipeRevealLayout mSwipeRevealLayout;
+        private Button mBtn_add_to_selected;
+        private Boolean backgroundOfmBtn_add_to_selected_Is_Fill = false;
 
         public GoodsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +80,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHol
             mBtnMinus = itemView.findViewById(R.id.btn_minus);
             mPrice = itemView.findViewById(R.id.price);
             mAdd_to_store = itemView.findViewById(R.id.btn_add_to_store);
+            mSwipeRevealLayout = itemView.findViewById(R.id.swipelayout);
+            mBtn_add_to_selected = itemView.findViewById(R.id.btn_add_to_selected);
         }
 
         @SuppressLint({"SetTextI18n", "ResourceAsColor"})
@@ -115,6 +99,17 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHol
                     .into(mGoodsImage);
 
             String value = App.loadData(goods,mGoodsImage.getContext());
+            backgroundOfmBtn_add_to_selected_Is_Fill = Boolean.parseBoolean(App.loadDataBoolean(goods,mGoodsImage.getContext()));
+            if (!backgroundOfmBtn_add_to_selected_Is_Fill){
+                mBtn_add_to_selected.setBackgroundResource(R.drawable.ic_vector);
+                backgroundOfmBtn_add_to_selected_Is_Fill = true;
+
+            }else {
+                mBtn_add_to_selected.setBackgroundResource(R.drawable.ic_vectorfill);
+                backgroundOfmBtn_add_to_selected_Is_Fill = false;
+            }
+
+
 
             mGoodsCount.setText(value);
             int counter = Integer.parseInt(value);
@@ -134,7 +129,6 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHol
             mAdd_to_store.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    notifyItemChanged(getAdapterPosition());
                     mAdd_to_store.setVisibility(View.INVISIBLE);
                     mBtnPlus.setVisibility(View.VISIBLE);
                     mBtnMinus.setVisibility(View.VISIBLE);
@@ -179,6 +173,22 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHol
                     str = String.valueOf(counter);
                     mGoodsCount.setText(str);
                     App.saveData(goods,mContext,str);
+                }
+            });
+
+            mBtn_add_to_selected.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!backgroundOfmBtn_add_to_selected_Is_Fill){
+                        mBtn_add_to_selected.setBackgroundResource(R.drawable.ic_vectorfill);
+                        App.saveData(goods,mContext, true);
+                        backgroundOfmBtn_add_to_selected_Is_Fill = true;
+                    }else {
+                        mBtn_add_to_selected.setBackgroundResource(R.drawable.ic_vector);
+                        App.saveData(goods,mContext, false);
+                        backgroundOfmBtn_add_to_selected_Is_Fill = false;
+                    }
+
                 }
             });
         }

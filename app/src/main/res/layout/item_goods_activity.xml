@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="24dp"
+    android:id="@+id/swipelayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/card_view_background">
+    app:dragEdge="right"
+    app:mode="same_level">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="100dp"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_add_to_selected"
+            android:layout_width="22dp"
+            android:layout_height="20dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ic_rectangle_10" />
+
+
+    </androidx.cardview.widget.CardView>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,9 +46,9 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            android:textColor="@color/black"
             android:gravity="top"
             android:text="@string/goods_title"
+            android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/goods_image"
@@ -43,15 +62,15 @@
             android:layout_marginTop="32dp"
             android:background="@drawable/ic_rectangle_10"
             android:gravity="center_horizontal|top"
-            android:textSize="14sp"
-            android:text="@string/price"
+            android:paddingStart="12dp"
             android:paddingTop="8dp"
             android:paddingEnd="13dp"
-            android:paddingStart="12dp"
             android:paddingBottom="7dp"
+            android:text="@string/price"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             android:viewportWidth="63"
             android:viewportHeight="32"
-            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/goods_image"
             app:layout_constraintTop_toBottomOf="@+id/goods_title"
             tools:targetApi="lollipop" />
@@ -61,9 +80,9 @@
             android:id="@+id/goods_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
             android:gravity="center_horizontal|top"
             android:text="@string/goods_count"
-            android:layout_marginEnd="14dp"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:visibility="invisible"
@@ -97,13 +116,13 @@
             android:layout_height="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            android:visibility="visible"
             android:background="@drawable/ic_add_to_store"
             android:viewportWidth="32"
             android:viewportHeight="32"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/goods_title"
             tools:targetApi="lollipop" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

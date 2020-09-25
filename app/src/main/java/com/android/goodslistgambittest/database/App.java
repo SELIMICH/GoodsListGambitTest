@@ -28,9 +28,19 @@ public class App {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(String.valueOf(goods.getId()), str).apply();
     }
+    public static void saveData(Goods goods, Context context, Boolean  backgroundOfmBtn_add_to_selectedIsFill) {
+        mSharedPreferences = context.getSharedPreferences("GoodsDb", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(goods.getDescription(), String.valueOf(backgroundOfmBtn_add_to_selectedIsFill)).apply();
+    }
 
     public static String loadData(Goods goods, Context context) {
         mSharedPreferences = context.getSharedPreferences("GoodsDb", Context.MODE_PRIVATE);
         return mSharedPreferences.getString(String.valueOf(goods.getId()), "0");
+    }
+
+    public static String  loadDataBoolean(Goods goods, Context context) {
+        mSharedPreferences = context.getSharedPreferences("GoodsDb", Context.MODE_PRIVATE);
+        return mSharedPreferences.getString(goods.getDescription(), "false");
     }
 }
